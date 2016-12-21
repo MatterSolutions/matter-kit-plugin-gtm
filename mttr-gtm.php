@@ -6,7 +6,7 @@ if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  * Plugin Name: Matter Kit - Tag Manager
  * Plugin URI: http://www.mattersolutions.com.au
  * Description: A plugin to add Google Tag manager to themes built on the Matter Kit framework.
- * Version: 0.9.0
+ * Version: 0.9.1
  * Author: MatterSolutions
  * Author URI: http://www.mattersolutions.com.au
  * License: GPL2
@@ -55,12 +55,12 @@ class MatterKitGTM {
 
 			if ( $this->mttr_get_gtm_code() ) {
 
-				add_action( 'mttr_page_setup', array( $this, 'mttr_output_gtm_code' ), 5 );
+				add_action( 'init', array( $this, 'mttr_output_gtm_code' ), 11 );
 				return true;
 
 			} else {
 
-				$this->__mttr_admin_notice( 'Google Tag Manager hasn\'t been set up. Please visit the customiser to <a href="/wp-admin/customize.php">add your Google Tag Manager ID</a>.' );
+				$this->__mttr_admin_notice( 'Google Tag Manager hasn\'t been set up. Please visit the customiser to <a href="' . get_admin_url( null, 'customize.php' ) . '">add your Google Tag Manager ID</a>.' );
 				return false;
 
 			}
@@ -138,17 +138,31 @@ class MatterKitGTM {
 
 	public function mttr_output_gtm_code() {
 
+		add_action( 'wp_head', array( $this, 'mttr_output_gtm_code_head' ), 1 );
+
+		add_action( 'mttr_page_setup', array( $this, 'mttr_output_gtm_code_body' ), 1 );
+
+	}
+
+
+
+
+
+	/* ---------------------------------------------------------
+	*	Output the Google Tag Manager Code In The Head
+	 ---------------------------------------------------------*/
+
+	public function mttr_output_gtm_code_head() {
+
 		$gtm_id = $this->mttr_get_gtm_code();
 
 		if ( $gtm_id ) {
 
-		?><!-- Google Tag Manager -->
-<noscript><iframe src="//www.googletagmanager.com/ns.html?id=<?php echo esc_html( $gtm_id ); ?>"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+			?><!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','<?php echo esc_html( $gtm_id ); ?>');</script>
 <!-- End Google Tag Manager --><?php
 
@@ -157,6 +171,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	}
 
 
+
+	/* ---------------------------------------------------------
+	*	Output the Google Tag Manager Code In The Body
+	 ---------------------------------------------------------*/
+
+	public function mttr_output_gtm_code_body() {
+
+		$gtm_id = $this->mttr_get_gtm_code();
+
+		if ( $gtm_id ) {
+
+			?><!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo esc_html( $gtm_id ); ?>"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) --><?php
+
+		}
+
+	}
 
 
 
