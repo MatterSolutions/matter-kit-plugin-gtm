@@ -78,7 +78,7 @@ class MatterKitGTM {
 
 	public function __mttr_admin_notice( $message, $type = 'update-nag' ) {
 
-		if ( is_admin() ) {
+		if ( is_admin() && !defined('DOING_AJAX') ) {
 
 			echo '<div class="' . sanitize_html_class( $type ) . ' notice">';
 			 
