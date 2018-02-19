@@ -19,7 +19,7 @@ class MatterKitGTM {
 	function __construct() {
 
 		add_action( 'init', array( $this, '__mttr_check_for_required_hooks' ) );
-		add_action( 'customize_register', array( $this, '__mttr_gtm_customiser_settings' ), 50 );
+		add_action( 'customize_register', array( $this, '__mttr_gtm_customiser_settings' ), 100 );
 
 	}
 
@@ -99,14 +99,6 @@ class MatterKitGTM {
 
 
 	public function __mttr_gtm_customiser_settings( $wp_customize ) {
-
-		$wp_customize->add_section( 'mttr_gtm' , array(
-
-		    'title' => __( 'Matter Kit - Tag Manager', 'mttr' ),
-		    'description' => __( 'Manage your Google Tag Manager Code', 'mttr' ),
-		    'priority'   => 50,
-
-		) );
 
 
 		// Add the tag manager id
