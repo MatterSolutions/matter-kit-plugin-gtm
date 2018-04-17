@@ -60,7 +60,7 @@ class MatterKitGTM {
 
 			} else {
 
-				$this->__mttr_admin_notice( 'Google Tag Manager hasn\'t been set up. Please visit the customiser to <a href="' . get_admin_url( null, 'customize.php?autofocus%5Bcontorl%5D=mttr_gtm_code' ) . '">add your Google Tag Manager ID</a>.' );
+				$this->__mttr_admin_notice( 'Google Tag Manager hasn\'t been set up. Please visit the customiser to <a href="' . get_admin_url( null, 'customize.php?autofocus%5Bcontrol%5D=mttr_gtm_code' ) . '">add your Google Tag Manager ID</a>.' );
 				return false;
 
 			}
